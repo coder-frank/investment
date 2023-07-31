@@ -6,6 +6,6 @@
 	<title>Unknown</title>
 </head>
 <body>
-	<?php echo "Hello world"; ?>
+	<?php echo "Hello worl"; ?>
 </body>
 </html>
