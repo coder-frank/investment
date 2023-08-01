@@ -17,6 +17,7 @@ if (isset($_POST['login']))
 	{
 		// START SESSION FOR USER
 		session_start();
+		$_SESSION['userId'] = $login['id'];
 		$_SESSION['name'] = $login['fname']." ".$login['lname'];
 		$_SESSION['userEmail'] = $email;
 		header("location:../dashboard");

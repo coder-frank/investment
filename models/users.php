@@ -30,6 +30,13 @@ class User
 	public $bankAccNum;
 	public $bankAccName;
 
+
+	// Earning Data
+	public $earning;
+	public $refEarning;
+	public $wallet;
+	public $refCount;
+
 	public function __construct($db)
 	{
 		$this->conn = $db;
@@ -159,4 +166,64 @@ class User
 		}
 	}
 	
+
+	public function getEarnings()
+	{
+		$query = "SELECT * FROM earnings WHERE uid = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() == 1)
+		{
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				return number_format($row['balance']);
+			}
+		} else
+		{
+			return 0;
+		}
+	}
+
+	public function getrefEarning()
+	{
+		$query = "SELECT * FROM ref_earnings WHERE uid = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() == 1)
+		{
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				return number_format($row['balance']);
+			}
+		} else
+		{
+			return 0;
+		}
+	}
+
+	public function getWallet()
+	{
+		$query = "SELECT * FROM wallet WHERE uid = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() == 1)
+		{
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				return number_format($row['balance']);
+			}
+		} else
+		{
+			return 0;
+		}
+	}
+
+
+	public function getrefCount()
+	{
+		$query = "SELECT * FROM referral WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		return $stmt->rowCount();
+	}
 }

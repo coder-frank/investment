@@ -14,7 +14,7 @@ require_once '../universal/includes/sidebar.php';
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Earnings </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₦40,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php include_once '../inc/getEarning.php' ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -32,7 +32,7 @@ require_once '../universal/includes/sidebar.php';
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Refferal Earnings </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₦3,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php include_once '../inc/getRefEarning.php' ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-money-bill fa-2x text-gray-300"></i>
@@ -51,7 +51,7 @@ require_once '../universal/includes/sidebar.php';
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 E-Wallet </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₦1,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php include_once '../inc/wallet.php' ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-wallet fa-2x text-gray-300"></i>
@@ -69,7 +69,7 @@ require_once '../universal/includes/sidebar.php';
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                                                 Refferals </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php include_once '../inc/getRefCount.php' ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-users fa-2x text-gray-300"></i>
