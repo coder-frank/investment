@@ -22,21 +22,21 @@ require_once '../universal/includes/sidebar.php';
 				<td>Recharge</td>
 				<td>₦5000</td>
 				<td>01/08/2023</td>
-				<td class="alert-success">Success</td>
+				<td>Success</td>
 			</tr>
             <tr>
 				<th scope="row">2</th>
 				<td>Recharge</td>
 				<td>₦3000</td>
 				<td>04/08/2023</td>
-				<td class="alert-danger">failed</td>
+				<td>Failed</td>
 			</tr>
             <tr>
 				<th scope="row">3</th>
 				<td>Recharge</td>
 				<td>₦2000</td>
 				<td>05/08/2023</td>
-				<td class="alert-primary">pending</td>
+				<td>Pending</td>
 			</tr>
 		</tbody>
 	</table>

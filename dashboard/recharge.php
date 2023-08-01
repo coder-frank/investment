@@ -26,13 +26,13 @@ require_once '../universal/includes/sidebar.php';
 				<th scope="row">1</th>
 				<td>₦4000</td>
 				<td>01/07/2023</td>
-				<td class="alert-success">Success</td>
+				<td>Success</td>
 			</tr>
                     <tr>
 				<th scope="row">2</th>
 				<td>₦1000</td>
 				<td>03/07/2023</td>
-				<td class="alert-danger">failed</td>
+				<td>Failed</td>
 			</tr>
 
     </table>
