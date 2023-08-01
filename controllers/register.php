@@ -30,6 +30,7 @@ if (isset($_POST['register']))
 	$user->phone = $phone;
 	$user->code = $code;
 	$user->password = $password;
+	$user->status = "active";
 
 	// CHECK USER EXITS
 	if ($user->emailExits($email) == false)

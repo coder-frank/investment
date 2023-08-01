@@ -31,7 +31,7 @@ require_once '../universal/includes/sidebar.php';
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Refferal Earnings </div>
+                                                Bonus </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php include_once '../inc/getRefEarning.php' ?></div>
                                         </div>
                                         <div class="col-auto">
@@ -85,7 +85,7 @@ require_once '../universal/includes/sidebar.php';
                         <div class="task">
                             <div class="head text-xs font-weight-bold text-primary text-uppercase mb-1">
                             <br>    
-                            <h2><b>Task 1</b></h2>
+                            <h4><b>Task 1</b></h4>
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Withdraw</button>
                             </div>
                             <div class="progress progress-sm mr-2">
@@ -101,7 +101,7 @@ require_once '../universal/includes/sidebar.php';
                         <div class="task">
                             <div class="head text-xs font-weight-bold text-primary text-uppercase mb-1">
                             <br>    
-                            <h2><b>Task 2</b></h2>
+                            <h4><b>Task 2</b></h4>
                                     <button class="btn btn-success">Withdraw</button>
                             </div>
                             <div class="progress progress-sm mr-2">

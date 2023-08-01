@@ -21,6 +21,7 @@ class User
 	public $phone;
 	public $email;
 	public $myCode;
+	public $status;
 	public $password;
 
 	// Bank Data
@@ -106,9 +107,9 @@ class User
 
 	public function register()
 	{
-		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password, refCode) VALUES(?, ?, ?, ?, ?, ?)";
+		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password, refCode, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode));
+		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status));
 		if ($stmt)
 		{
 			return true;

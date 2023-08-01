@@ -47,16 +47,16 @@
 <hr class="sidebar-divider">
 
 <li class="nav-item active">
-    <a class="nav-link" href="ref.php">
-	<i class="fas fa-fw fa-users"></i>
-	<span>Referrals</span></a>
+    <a class="nav-link" href="faq.php">
+	<i class="fas fa-fw fa-question-circle"></i>
+	<span>Faq</span></a>
 </li>
 
 <hr class="sidebar-divider">
 
 <li class="nav-item active">
     <a class="nav-link" href="support.php">
-	<i class="fas fa-fw fa-question"></i>
+	<i class="fas fa-fw fa-headset"></i>
 	<span>Support</span></a>
 </li>
 
@@ -111,9 +111,9 @@
 		<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 		    aria-labelledby="userDropdown">
 
-		    <a class="dropdown-item" href="#">
-			<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-			Settings
+		    <a class="dropdown-item" href="./profile.php">
+			<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+			Profile
 		    </a>
 		    <div class="dropdown-divider"></div>
 		    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
