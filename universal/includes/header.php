@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['userEmail']))
+{
+    header("location:../login.html");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

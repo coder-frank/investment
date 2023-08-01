@@ -7,7 +7,10 @@ if (isset($_POST['login']))
 	$email = $user->sanitizeString($_POST['email']);
 	$password = $user->sanitizeString($_POST['password']);
 
-	// PROCESS DATA INTO TE CLASS
+	// HASH PASSWORD
+	$password = $user->passHash();
+
+	// PROCESS DATA INTO CLASS
 	$user->email = $email;
 	$user->password = $password;
 
@@ -16,11 +19,11 @@ if (isset($_POST['login']))
 	{
 		// START SESSION FOR USER
 		session_start();
-		$_SESSION['UserEmail'] = $email;
-		echo "Login Successful";
+		$_SESSION['userEmail'] = $email;
+		header("location:../dashboard");
 	} else
 	{
-		echo "Login Failed";
+		echo "Email/Password Incorrect";
 	}
 
 }

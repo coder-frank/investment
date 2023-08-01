@@ -11,12 +11,16 @@ class User
 	// Conncection
 	private $conn;
 
+	//REF
+	public $code;
+
 	// User Data
 	public $id;
 	public $fname;
 	public $lname;
 	public $phone;
 	public $email;
+	public $myCode;
 	public $password;
 
 	// Bank Data
@@ -28,7 +32,7 @@ class User
 
 	public function __construct($db)
 	{
-		$conn = $db;
+		$this->conn = $db;
 	}
 
 	public function sanitizeString($input) {
@@ -51,11 +55,53 @@ class User
 		return md5(md5(md5(md5($this->password))));
 	}
 
+	public function generateCode()
+	{
+		$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    		$code = '';
+		$length = 8;
+
+		for ($i = 0; $i < $length; $i++) {
+			$randomIndex = rand(0, strlen($characters) - 1);
+			$code .= $characters[$randomIndex];
+		}
+
+    		return $code;
+	}
+
+	public function emailExits()
+	{
+		$query = "SELECT email FROM ". $this->table ." WHERE email = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->email));
+		if ($stmt->rowCount() == 0)
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
+	public function codeExits()
+	{
+		$query = "SELECT refCode FROM ". $this->table ." WHERE refCode = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->code));
+		if ($stmt->rowCount() == 0)
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
 	public function register()
 	{
-		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password) VALUES(?, ?, ?, ?, ?)";
+		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password, refCode) VALUES(?, ?, ?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password));
+		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode));
 		if ($stmt)
 		{
 			return true;
@@ -67,7 +113,8 @@ class User
 	{
 		$query = "SELECT * FROM ". $this->table ." WHERE email = ? AND password = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute($this->email, $this->password))
+		$stmt->execute(array($this->email, $this->password));
+		if ($stmt->rowCount() == 1)
 		{
 			return true;
 		} else
@@ -80,7 +127,7 @@ class User
 	{
 		$query = "INSERT INTO bank(userid, bankName, bankAccNum, bankAccName) VALUES(?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute($this->bUserId, $this->bankName, $this->bankAccNum, $this->bankAccName))
+		if ($stmt->execute(array($this->bUserId, $this->bankName, $this->bankAccNum, $this->bankAccName)))
 		{
 			return true;
 		} else
@@ -93,7 +140,7 @@ class User
 	{
 		$query = "SELECT * FROM bank WHERE userid = ? LINIT 1";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute($this->bUserId))
+		if ($stmt->execute(array($this->bUserId)))
 		{
 			while ($row = $stmt->PDO::FETCH_ASSOC)
 			{
