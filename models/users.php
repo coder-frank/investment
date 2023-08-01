@@ -50,9 +50,9 @@ class User
 	}
 	    
 
-	public function passHash()
+	public function passHash($epass)
 	{
-		return md5(md5(md5(md5($this->password))));
+		return password_hash($epass, PASSWORD_BCRYPT);
 	}
 
 	public function generateCode()
@@ -109,18 +109,23 @@ class User
 		return false;
 	}
 
-	public function login()
+	public function login($enteedPassword)
 	{
-		$query = "SELECT * FROM ". $this->table ." WHERE email = ? AND password = ? LIMIT 1";
+		$query = "SELECT * FROM ". $this->table ." WHERE email = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->email, $this->password));
-		if ($stmt->rowCount() == 1)
-		{
-			return true;
-		} else
-		{
-			return false;
+		$stmt->execute(array($this->email));
+		if ($stmt->rowCount() == 1) {
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$hashedPasswordFromDB = $row['password'];
+		
+			// Verify the entered password against the hashed password from the database
+			if (password_verify($enteedPassword, $hashedPasswordFromDB)) {
+			    return $row;
+			} else{
+				return false;
+			}
 		}
+		return false;
 	}
 
 	public function addBank()

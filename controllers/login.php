@@ -7,18 +7,17 @@ if (isset($_POST['login']))
 	$email = $user->sanitizeString($_POST['email']);
 	$password = $user->sanitizeString($_POST['password']);
 
-	// HASH PASSWORD
-	$password = $user->passHash();
 
 	// PROCESS DATA INTO CLASS
 	$user->email = $email;
-	$user->password = $password;
 
 	// RUN LOGIN FUNCTION
-	if ($user->login() == true)
+	$login = $user->login($password);
+	if ($login != false)
 	{
 		// START SESSION FOR USER
 		session_start();
+		$_SESSION['name'] = $login['fname']." ".$login['lname'];
 		$_SESSION['userEmail'] = $email;
 		header("location:../dashboard");
 	} else
