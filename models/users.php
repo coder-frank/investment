@@ -16,6 +16,7 @@ class User
 
 	// User Data
 	public $id;
+	public $type;
 	public $fname;
 	public $lname;
 	public $phone;
@@ -44,20 +45,21 @@ class User
 		$this->conn = $db;
 	}
 
-	public function sanitizeString($input) {
+	public function sanitizeString($input)
+	{
 		// Remove HTML tags and entities
 		$cleanedString = strip_tags($input);
-	    
+
 		// Remove potentially harmful characters using regular expression
 		// Keep only alphanumeric characters, spaces, and some basic punctuation
 		$cleanedString = preg_replace('/[^A-Za-z0-9\s\.\,\-\!\?]/', '', $cleanedString);
-	    
+
 		// Trim leading and trailing whitespaces
 		$cleanedString = trim($cleanedString);
-	    
+
 		return $cleanedString;
 	}
-	    
+
 
 	public function passHash($epass)
 	{
@@ -67,7 +69,7 @@ class User
 	public function generateCode()
 	{
 		$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    		$code = '';
+		$code = '';
 		$length = 8;
 
 		for ($i = 0; $i < $length; $i++) {
@@ -75,78 +77,81 @@ class User
 			$code .= $characters[$randomIndex];
 		}
 
-    		return $code;
+		return $code;
 	}
 
 	public function emailExits()
 	{
-		$query = "SELECT email FROM ". $this->table ." WHERE email = ? LIMIT 1";
+		$query = "SELECT email FROM " . $this->table . " WHERE email = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->email));
-		if ($stmt->rowCount() == 0)
-		{
+		if ($stmt->rowCount() == 0) {
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
 	public function codeExits()
 	{
-		$query = "SELECT refCode FROM ". $this->table ." WHERE refCode = ? LIMIT 1";
+		$query = "SELECT refCode FROM " . $this->table . " WHERE refCode = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->code));
-		if ($stmt->rowCount() == 1)
-		{
+		if ($stmt->rowCount() == 1) {
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
 	public function getRefId()
 	{
-		$query = "SELECT id FROM ". $this->table ." WHERE refCode = ? LIMIT 1";
+		$query = "SELECT id FROM " . $this->table . " WHERE refCode = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->code));
-		if ($stmt->rowCount() == 1)
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return $row['id'];
 			}
-		} else
-		{
+		} else {
+			return false;
+		}
+	}
+
+	public function getRefBy()
+	{
+		$query = "SELECT refBy FROM " . $this->table . " WHERE id = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->code));
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row['refBy'];
+			}
+		} else {
 			return false;
 		}
 	}
 
 	public function getrefCode()
 	{
-		$query = "SELECT refCode FROM ". $this->table ." WHERE id = ? LIMIT 1";
+		$query = "SELECT refCode FROM " . $this->table . " WHERE id = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
-		if ($stmt->rowCount() == 1)
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return $row['refCode'];
 			}
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
 	public function register()
 	{
-		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password, refCode, status, refBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+		$query = "INSERT INTO " . $this->table . " (type, fname, lname, phone, email, password, refCode, status, refBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status, $this->refId));
-		if ($stmt)
-		{
+		$stmt->execute(array($this->type, $this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status, $this->refId));
+		if ($stmt) {
 			return true;
 		}
 		return false;
@@ -154,17 +159,17 @@ class User
 
 	public function login($enteedPassword)
 	{
-		$query = "SELECT * FROM ". $this->table ." WHERE email = ? LIMIT 1";
+		$query = "SELECT * FROM " . $this->table . " WHERE email = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->email));
 		if ($stmt->rowCount() == 1) {
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 			$hashedPasswordFromDB = $row['password'];
-		
+
 			// Verify the entered password against the hashed password from the database
 			if (password_verify($enteedPassword, $hashedPasswordFromDB)) {
-			    return $row;
-			} else{
+				return $row;
+			} else {
 				return false;
 			}
 		}
@@ -175,11 +180,31 @@ class User
 	{
 		$query = "INSERT INTO bank(uid, bankName, accName, accNumber) VALUES(?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute(array($this->id, $this->bankName, $this->bankAccName, $this->bankAccNum)))
-		{
+		if ($stmt->execute(array($this->id, $this->bankName, $this->bankAccName, $this->bankAccNum))) {
 			return true;
-		} else
-		{
+		} else {
+			return false;
+		}
+	}
+
+	public function recharge($type, $status, $expire)
+	{
+		$query = "INSERT INTO package(uid, type, status, date_expire) VALUES(?, ?, ?, ?)";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($this->id, $type, $status, $expire))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function deactivateCode($code)
+	{
+		$query = "UPDATE recharge SET status = ? WHERE code = ?";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array("used", $code))) {
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -189,11 +214,9 @@ class User
 		$query = "SELECT * FROM bank WHERE uid = ?";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
-		if ($stmt->rowCount() == 1)
-		{
+		if ($stmt->rowCount() == 1) {
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -202,16 +225,39 @@ class User
 	{
 		$query = "SELECT * FROM bank WHERE uid = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute(array($this->id)))
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
+		if ($stmt->execute(array($this->id))) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$this->bankName = $row['bankName'];
 				$this->bankAccName = $row['accName'];
 				$this->bankAccNum = $row['accNumber'];
 			}
-		} else
-		{
+		} else {
+			return false;
+		}
+	}
+
+	public function accType()
+	{
+		$query = "SELECT type FROM users WHERE id = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($this->id))) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row['type'];
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function getRechargeCode($code)
+	{
+		$query = "SELECT * FROM recharge WHERE code = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($code))) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row;
+			}
+		} else {
 			return false;
 		}
 	}
@@ -221,11 +267,9 @@ class User
 		$query = "SELECT * FROM package WHERE uid = ?";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
-		if ($stmt->rowCount() == 1)
-		{
+		if ($stmt->rowCount() > 0) {
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -233,34 +277,26 @@ class User
 
 	public function getPackages()
 	{
-		$query = "SELECT * FROM package WHERE uid = ? LIMIT 1";
+		$query = "SELECT * FROM package WHERE uid = ? ORDER BY id DESC";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute(array($this->id)))
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
-				return $row;
-			}
-		} else
-		{
+		if ($stmt->execute(array($this->id))) {
+			return $stmt;
+		} else {
 			return false;
 		}
 	}
-	
+
 
 	public function getEarnings()
 	{
 		$query = "SELECT * FROM earnings WHERE uid = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
-		if ($stmt->rowCount() == 1)
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return number_format($row['balance']);
 			}
-		} else
-		{
+		} else {
 			return 0;
 		}
 	}
@@ -270,14 +306,11 @@ class User
 		$query = "SELECT * FROM ref_earnings WHERE uid = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
-		if ($stmt->rowCount() == 1)
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
-				return number_format($row['balance']);
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row['balance'];
 			}
-		} else
-		{
+		} else {
 			return 0;
 		}
 	}
@@ -287,14 +320,11 @@ class User
 		$query = "SELECT * FROM wallet WHERE uid = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
-		if ($stmt->rowCount() == 1)
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return number_format($row['balance']);
 			}
-		} else
-		{
+		} else {
 			return 0;
 		}
 	}
@@ -313,8 +343,7 @@ class User
 		$query = "INSERT INTO wallet(uid, balance) VALUES (?, ?)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id, 0));
-		if ($stmt->rowCount() == 1)
-		{
+		if ($stmt->rowCount() == 1) {
 			return true;
 		}
 		return false;
@@ -326,8 +355,7 @@ class User
 		$query = "INSERT INTO earnings(uid, balance) VALUES (?, ?)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id, 0));
-		if ($stmt->rowCount() == 1)
-		{
+		if ($stmt->rowCount() == 1) {
 			return true;
 		}
 		return false;
@@ -339,19 +367,21 @@ class User
 		$query = "INSERT INTO ref_earnings(uid, balance) VALUES (?, ?)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id, 0));
-		if ($stmt->rowCount() == 1)
-		{
+		if ($stmt->rowCount() == 1) {
 			return true;
 		}
 		return false;
 	}
 
 
-	public function topUpWallet($amount)
+	public function topBonus($amount)
 	{
-		$query = "UPDATE wallet SET balance = ? WHERE uid = ?";
+		$query = "UPDATE ref_earnings SET balance = ? WHERE uid = ?";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($amount, $this->id));
-		return $stmt->rowCount();
+		if ($stmt->execute(array($amount, $this->id))) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -11,7 +11,6 @@ require_once '../inc/core.php';
 
 	// GET EARNINGS
 	$refEarning = $user->getrefEarning();
-	echo "₦".$refEarning;
+	echo "₦".number_format($refEarning);
 	
 }
-?>

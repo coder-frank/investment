@@ -37,36 +37,44 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             <form class="user" method="post" action="./controllers/register.php">
+                                <select class="form-select form-control" required name="type" aria-label="Default select example">
+                                    <option disabled>Account Type</option>
+                                    <option value="classic">Classic</option>
+                                    <option value="silver">Silver</option>
+                                    <option value="diamond">Diamond</option>
+                                </select>
+
+                                <br>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name" name="fname">
+                                            placeholder="First Name" required name="fname">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name" name="lname">
+                                            placeholder="Last Name" required name="lname">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address" name="email">
+                                        placeholder="Email Address" required name="email">
                                 </div>
                                 <div class="form-group">
                                     <input type="number" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Phone Number" name="phone">
+                                        placeholder="Phone Number" required name="phone">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Referral Code" name="code">
+                                        placeholder="Referral Code (Optional)" name="code">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password" name="password">
+                                            id="exampleInputPassword" required placeholder="Password" name="password">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password" name="rpassword">
+                                            id="exampleRepeatPassword" required placeholder="Repeat Password" name="rpassword">
                                     </div>
                                 </div>
                                 <button type="submit" name="register" class="btn btn-primary btn-user btn-block">

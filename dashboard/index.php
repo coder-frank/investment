@@ -81,10 +81,10 @@ require_once '../universal/includes/sidebar.php';
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" readonly value="Referral Code: <?php include_once '../inc/getRefCode.php' ?>" aria-label="Referral Code" aria-describedby="button-addon2">
                             <button class="btn btn-primary" type="button" id="button-addon2">Copy</button>
+                            <br>
                         </div>
-                        <br>
+                        <br><br>
                         <h3><b>Active Packages</b></h3>
-
                         <div class="task-holder">
                             <?php include_once '../inc/package.php'; ?>
                         </div>

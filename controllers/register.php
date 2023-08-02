@@ -5,6 +5,7 @@ if (isset($_POST['register']))
 	require_once './core.php';
 
 	// GET AND SANITIZE FORM DATA
+	$type = $user->sanitizeString($_POST['type']);
 	$fname = $user->sanitizeString($_POST['fname']);
 	$lname = $user->sanitizeString($_POST['lname']);
 	$email = $user->sanitizeString($_POST['email']);
@@ -24,6 +25,7 @@ if (isset($_POST['register']))
 	$password = $user->passHash($password);
 
 	// ASSIGN VARIBLES TO CLASS
+	$user->type = $type;
 	$user->fname = $fname;
 	$user->lname = $lname;
 	$user->email = $email;
@@ -47,7 +49,8 @@ if (isset($_POST['register']))
 		return;
 	} else {
 		// GET AND ASSIGN REF ID
-		$user->refId = $user->getRefId();
+		$refId = $user->getRefId();
+		$user->refId = $refId;
 	}
 
 	// GENERATE AND ASSIGN CODE
@@ -76,5 +79,3 @@ if (isset($_POST['register']))
 
 
 }
-
-?>
