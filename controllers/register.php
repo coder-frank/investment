@@ -41,10 +41,13 @@ if (isset($_POST['register']))
 
 
 	// CHECK CODE EXITS
-	if ($code != ""  && $user->codeExits($email) == false)
+	if ($code != ""  && $user->codeExits() == false)
 	{
 		echo "Referral Code do not exit";
 		return;
+	} else {
+		// GET AND ASSIGN REF ID
+		$user->refId = $user->getRefId();
 	}
 
 	// GENERATE AND ASSIGN CODE
@@ -59,6 +62,13 @@ if (isset($_POST['register']))
 	$register = $user->register();
 	if ($register == true)
 	{
+		// CREATE ALL WALLET
+		$user->code = $myCode;
+		$user->id = $user->getRefId();
+		$user->createEarnings();
+		$user->createRefEarnings();
+		$user->createWallet();
+		
 		echo "Registration successful";
 	} else {
 		echo "Something went wrong";

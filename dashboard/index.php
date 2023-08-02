@@ -78,43 +78,15 @@ require_once '../universal/includes/sidebar.php';
                                 </div>
                             </div>
                         </div>
-
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" readonly value="Referral Code: <?php include_once '../inc/getRefCode.php' ?>" aria-label="Referral Code" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="button" id="button-addon2">Copy</button>
+                        </div>
+                        <br>
                         <h3><b>Active Packages</b></h3>
 
                         <div class="task-holder">
-                        <div class="task">
-                            <div class="head text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            <br>    
-                            <h4><b>Task 1</b></h4>
-                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Withdraw</button>
-                            </div>
-                            <div class="progress progress-sm mr-2">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <br>
-                            <i>Expires: 05/08/2023</i>
-                            <br>
-                            <span> <i class="fa fa-circle" style="color: #159f6d"></i> &nbsp;Active</span>
-                        <br>
-                        </div>
-
-                        <div class="task">
-                            <div class="head text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            <br>    
-                            <h4><b>Task 2</b></h4>
-                                    <button class="btn btn-success">Withdraw</button>
-                            </div>
-                            <div class="progress progress-sm mr-2">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <br>
-                            <i>Expires: 07/08/2023</i>
-                            <br>
-                            <span> <i class="fa fa-circle" style="color: red"></i> &nbsp;Expired</span>
-                        <br>
-                        </div>
-
-
+                            <?php include_once '../inc/package.php'; ?>
                         </div>
 
 

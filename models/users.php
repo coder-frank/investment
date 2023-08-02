@@ -22,6 +22,7 @@ class User
 	public $email;
 	public $myCode;
 	public $status;
+	public $refId;
 	public $password;
 
 	// Bank Data
@@ -96,7 +97,7 @@ class User
 		$query = "SELECT refCode FROM ". $this->table ." WHERE refCode = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->code));
-		if ($stmt->rowCount() == 0)
+		if ($stmt->rowCount() == 1)
 		{
 			return true;
 		} else
@@ -105,11 +106,45 @@ class User
 		}
 	}
 
+	public function getRefId()
+	{
+		$query = "SELECT id FROM ". $this->table ." WHERE refCode = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->code));
+		if ($stmt->rowCount() == 1)
+		{
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				return $row['id'];
+			}
+		} else
+		{
+			return false;
+		}
+	}
+
+	public function getrefCode()
+	{
+		$query = "SELECT refCode FROM ". $this->table ." WHERE id = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() == 1)
+		{
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				return $row['refCode'];
+			}
+		} else
+		{
+			return false;
+		}
+	}
+
 	public function register()
 	{
-		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password, refCode, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
+		$query = "INSERT INTO ".$this->table." (fname, lname, phone, email, password, refCode, status, refBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status));
+		$stmt->execute(array($this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status, $this->refId));
 		if ($stmt)
 		{
 			return true;
@@ -138,9 +173,23 @@ class User
 
 	public function addBank()
 	{
-		$query = "INSERT INTO bank(userid, bankName, bankAccNum, bankAccName) VALUES(?, ?, ?, ?)";
+		$query = "INSERT INTO bank(uid, bankName, accName, accNumber) VALUES(?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute(array($this->bUserId, $this->bankName, $this->bankAccNum, $this->bankAccName)))
+		if ($stmt->execute(array($this->id, $this->bankName, $this->bankAccName, $this->bankAccNum)))
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
+	public function bankExits()
+	{
+		$query = "SELECT * FROM bank WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() == 1)
 		{
 			return true;
 		} else
@@ -151,15 +200,46 @@ class User
 
 	public function getBank()
 	{
-		$query = "SELECT * FROM bank WHERE userid = ? LINIT 1";
+		$query = "SELECT * FROM bank WHERE uid = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute(array($this->bUserId)))
+		if ($stmt->execute(array($this->id)))
 		{
-			while ($row = $stmt->PDO::FETCH_ASSOC)
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				$this->bankName = $row['bankName'];
-				$this->bankAccName = $row['bankAccName'];
-				$this->bankAccNum = $row['bankAccNum'];
+				$this->bankAccName = $row['accName'];
+				$this->bankAccNum = $row['accNumber'];
+			}
+		} else
+		{
+			return false;
+		}
+	}
+
+	public function packageExits()
+	{
+		$query = "SELECT * FROM package WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() == 1)
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
+
+	public function getPackages()
+	{
+		$query = "SELECT * FROM package WHERE uid = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($this->id)))
+		{
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				return $row;
 			}
 		} else
 		{
@@ -222,9 +302,56 @@ class User
 
 	public function getrefCount()
 	{
-		$query = "SELECT * FROM referral WHERE uid = ?";
+		$query = "SELECT * FROM users WHERE refBy = ?";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
+		return $stmt->rowCount();
+	}
+
+	public function createWallet()
+	{
+		$query = "INSERT INTO wallet(uid, balance) VALUES (?, ?)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id, 0));
+		if ($stmt->rowCount() == 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+	public function createEarnings()
+	{
+		$query = "INSERT INTO earnings(uid, balance) VALUES (?, ?)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id, 0));
+		if ($stmt->rowCount() == 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+	public function createRefEarnings()
+	{
+		$query = "INSERT INTO ref_earnings(uid, balance) VALUES (?, ?)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id, 0));
+		if ($stmt->rowCount() == 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+	public function topUpWallet($amount)
+	{
+		$query = "UPDATE wallet SET balance = ? WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($amount, $this->id));
 		return $stmt->rowCount();
 	}
 }

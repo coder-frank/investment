@@ -3,7 +3,7 @@ require_once '../universal/includes/header.php';
 require_once '../universal/includes/sidebar.php';
 ?>
 
-<h1>Referrals</h1>
+<h1><b>FAQ</b></h1>
 <br>
 <div class="input-group mb-3">
   <input type="text" readonly class="form-control" placeholder="155767" aria-describedby="button-addon2">

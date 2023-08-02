@@ -5,10 +5,14 @@ require_once '../universal/includes/sidebar.php';
 
 <h2>Recharge</h2>
 <br>
+<form action="../controllers/recharge.php" method="post">
+
 <div class="input-group mb-3">
   <input type="text" class="form-control" placeholder="Enter Code" aria-label="Enter Code" aria-describedby="button-addon2">
   <button class="btn btn-primary" type="button" id="button-addon2">Recharge</button>
 </div>
+
+</form>
 <br>
 
 <h3>Recharge Histories</h3>

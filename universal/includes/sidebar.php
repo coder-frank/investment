@@ -28,6 +28,15 @@
 	<span>Recharge</span></a>
 </li>
 
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<li class="nav-item active">
+    <a class="nav-link" href="withdraw.php">
+	<i class="fas fa-fw fa-money-bill"></i>
+	<span>Withdrawal</span></a>
+</li>
+
 <hr class="sidebar-divider">
 
 <li class="nav-item active">
@@ -50,14 +59,6 @@
     <a class="nav-link" href="faq.php">
 	<i class="fas fa-fw fa-question-circle"></i>
 	<span>Faq</span></a>
-</li>
-
-<hr class="sidebar-divider">
-
-<li class="nav-item active">
-    <a class="nav-link" href="support.php">
-	<i class="fas fa-fw fa-headset"></i>
-	<span>Support</span></a>
 </li>
 
 <hr class="sidebar-divider">
