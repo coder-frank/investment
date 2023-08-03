@@ -300,6 +300,17 @@ class User
 		}
 	}
 
+	public function deletePackage($pid)
+	{
+		$query = "DELETE FROM package WHERE uid = ? AND id = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($this->id, $pid))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 	public function getEarnings($pid)
 	{
@@ -437,9 +448,9 @@ class User
 
 	public function activeWithdrawal()
 	{
-		$query = "SELECT * FROM withdrawal WHERE uid = ?";
+		$query = "SELECT * FROM withdrawal WHERE uid = ? AND status = ?";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->id));
+		$stmt->execute(array($this->id, "Pending"));
 		if ($stmt->rowCount() > 0) {
 			return true;
 		}

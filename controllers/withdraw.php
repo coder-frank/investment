@@ -27,7 +27,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		while ($row = $oldW->fetch(PDO::FETCH_ASSOC)) {
 			$dr = explode(" ", $row['date']);
 			$dr = $dr[0];
-			if ($today == $dr)
+			if ($today == $dr && $row['status'] == "Pending")
 			{
 				$todayW++;
 			}
@@ -45,7 +45,29 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 	{
 		// E WALLET WITHDRAWAL
 		$type = "E-Wallet";
-		$old = $user->getWallet();
+
+
+
+		// CHECK ACTIVE PACKAGES
+		$user->id = $_SESSION['userId'];
+		$pCount = 0;
+		$active = $user->getPackages();
+		while ($row = $active->fetch(PDO::FETCH_ASSOC)) {
+			if ($row['status'] == "active")
+			{
+				$pCount++;
+			}
+		}
+
+
+		if ($pCount > 0 || $user->activeWithdrawal() == true)
+		{
+			$old = $user->getWallet();
+		} else {
+			echo "Sorry, you need to have an active package in order to withdraw from your E-Wallet";
+			return;
+		}
+
 	} else if ($type == 1)
 	{
 		// REFERRAL BONUS WIITHDRAWAL
