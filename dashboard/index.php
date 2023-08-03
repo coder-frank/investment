@@ -93,9 +93,9 @@ require_once '../universal/includes/sidebar.php';
                     </div>
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- /.container-fluid 
 
-
+<div class="alert alert-danger">Error</div>-->
 <?php
 require_once '../universal/includes/external.php';
 require_once '../universal/includes/footer.html';

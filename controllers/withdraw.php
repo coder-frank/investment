@@ -46,7 +46,24 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		// E WALLET WITHDRAWAL
 		$type = "E-Wallet";
 
+		// CHECK IF WITHDRAWAL HAS ALREADY BEEN MADE
+		$check = $user->getWithdrawalHistory();
+		if ($check != false)
+		{
+			$cCount = 0;
+			while ($row = $check->fetch(PDO::FETCH_ASSOC)) {
+				if ($row['type'] == "E-Wallet" && $row['status'] == "Pending")
+				{
+					$cCount++;
+				}
+			}
 
+			if ($cCount > 0)
+			{
+				echo "A similar withdrawal has already been initaited, please try again when it has been approved";
+				return;
+			}
+		}
 
 		// CHECK ACTIVE PACKAGES
 		$user->id = $_SESSION['userId'];
@@ -72,6 +89,24 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 	{
 		// REFERRAL BONUS WIITHDRAWAL
 		$type = "Bonus";
+		// CHECK IF WITHDRAWAL HAS ALREADY BEEN MADE
+		$check = $user->getWithdrawalHistory();
+		if ($check != false)
+		{
+			$cCount = 0;
+			while ($row = $check->fetch(PDO::FETCH_ASSOC)) {
+				if ($row['type'] == "Bonus" && $row['status'] == "Pending")
+				{
+					$cCount++;
+				}
+			}
+
+			if ($cCount > 0)
+			{
+				echo "A similar withdrawal has already been initaited, please try again when it has been approved";
+				return;
+			}
+		}
 		$old = $user->getrefEarning();
 
 	} else {
@@ -79,9 +114,10 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		return;
 	}
 
+
 	if ($old >= $amount)
 	{
-		// PROCEED WUTH THE WITHDRAWAL
+		// PROCEED WITH THE WITHDRAWAL
 		$withdraw = $user->addWithdraw($amount, $type);
 		if ($withdraw != false)
 		{
@@ -89,6 +125,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		} else
 		{
 			echo "Something went wrong";
+			return;
 		}
 
 	} else
