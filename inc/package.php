@@ -5,6 +5,7 @@ $user->id = $_SESSION['userId'];
 if ($user->packageExits() == true)
 {
 	$date = date("Y-m-d");
+	$color = "#159f6d";
 	$row = $user->getPackages();
 	while ($package = $row->fetch(PDO::FETCH_ASSOC)) {
 		$exp = explode(" ", $package['date_expire']);
@@ -42,7 +43,8 @@ if ($user->packageExits() == true)
 
 		if ($date == $exp)
 		{
-			$button = '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Withdraw</button>';
+			$color = "red";
+			$button = '<a href="../controllers/withdrawPackage.php?pid='.$package['id'].'"><button class="btn btn-success">Withdraw</button></a>';
 		} else {
 			$last = $user->getLastClaimed($package['id']);
 			if ($last != false) {
@@ -74,7 +76,7 @@ if ($user->packageExits() == true)
 			<br>
 			<i>Expires: '.$package['date_expire'].'</i>
 			<br>
-			<span> <i class="fa fa-circle" style="color: #159f6d"></i> &nbsp;'.ucfirst($package['status']).'</span>
+			<span> <i class="fa fa-circle" style="color: '.$color.'"></i> &nbsp;'.ucfirst($package['status']).'</span>
 			<br>
 		</div>
 		';

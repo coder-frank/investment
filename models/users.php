@@ -187,6 +187,19 @@ class User
 		}
 	}
 
+
+	public function addWithdraw($amount, $type)
+	{
+		$query = "INSERT INTO withdrawal(uid, amount, type, status) VALUES(?, ?, ?, ?)";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($this->id, $amount, $type, "Pending"))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	public function recharge($type, $status, $expire)
 	{
 		$query = "INSERT INTO package(uid, type, status, date_expire) VALUES(?, ?, ?, ?)";
@@ -261,6 +274,7 @@ class User
 			return false;
 		}
 	}
+
 
 	public function packageExits()
 	{
@@ -359,7 +373,7 @@ class User
 		$stmt->execute(array($this->id));
 		if ($stmt->rowCount() == 1) {
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-				return number_format($row['balance']);
+				return $row['balance'];
 			}
 		} else {
 			return 0;
@@ -410,6 +424,28 @@ class User
 		return false;
 	}
 
+	public function getWithdrawalHistory()
+	{
+		$query = "SELECT * FROM withdrawal WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() > 0) {
+			return $stmt;
+		}
+		return false;
+	}
+
+	public function activeWithdrawal()
+	{
+		$query = "SELECT * FROM withdrawal WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	public function getRecentRecharge()
 	{
 		$query = "SELECT id FROM package WHERE uid = ? ORDER BY id DESC LIMIT 1";
@@ -439,6 +475,17 @@ class User
 	public function topBonus($amount)
 	{
 		$query = "UPDATE ref_earnings SET balance = ? WHERE uid = ?";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($amount, $this->id))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function topWallet($amount)
+	{
+		$query = "UPDATE wallet SET balance = ? WHERE uid = ?";
 		$stmt = $this->conn->prepare($query);
 		if ($stmt->execute(array($amount, $this->id))) {
 			return true;

@@ -11,7 +11,7 @@ require_once '../inc/core.php';
 
 	// GET WALLET BALANCE
 	$wallet = $user->getWallet();
-	echo "₦".$wallet;
+	echo "₦".number_format($wallet);
 	
 }
 ?>
