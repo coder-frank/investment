@@ -122,7 +122,7 @@ class User
 	{
 		$query = "SELECT refBy FROM " . $this->table . " WHERE id = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->code));
+		$stmt->execute(array($this->id));
 		if ($stmt->rowCount() == 1) {
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return $row['refBy'];
@@ -287,15 +287,52 @@ class User
 	}
 
 
-	public function getEarnings()
+	public function getEarnings($pid)
 	{
-		$query = "SELECT * FROM earnings WHERE uid = ? LIMIT 1";
+		$query = "SELECT * FROM earnings WHERE uid = ? AND pid = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->id));
+		$stmt->execute(array($this->id, $pid));
 		if ($stmt->rowCount() == 1) {
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-				return number_format($row['balance']);
+				return $row['balance'];
 			}
+		} else {
+			return 0;
+		}
+	}
+
+	public function getHistory()
+	{
+		$query = "SELECT * FROM history WHERE uid = ? ORDER BY id DESC LIMIT 10";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() > 0) {
+			return $stmt;
+		} else {
+			return 0;
+		}
+	}
+
+	public function getRechargeHistory()
+	{
+		$query = "SELECT * FROM history WHERE uid = ? AND type = ? ORDER BY id DESC LIMIT 10";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id, "Recharge"));
+		if ($stmt->rowCount() > 0) {
+			return $stmt;
+		} else {
+			return 0;
+		}
+	}
+
+
+	public function addHistory($amount, $type)
+	{
+		$query = "INSERT INTO history (uid, amount, type) VALUES(?, ?, ?)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id, $amount, $type));
+		if ($stmt->rowCount() == 1) {
+			return $stmt;
 		} else {
 			return 0;
 		}
@@ -350,13 +387,38 @@ class User
 	}
 
 
-	public function createEarnings()
+	public function createEarnings($pid)
 	{
-		$query = "INSERT INTO earnings(uid, balance) VALUES (?, ?)";
+		$query = "INSERT INTO earnings(uid, pid, balance, lastClaimed) VALUES (?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->id, 0));
+		$stmt->execute(array($this->id, $pid, 0, date("Y-m-d H:i:s")));
 		if ($stmt->rowCount() == 1) {
 			return true;
+		}
+		return false;
+	}
+
+
+	public function getWithdrawal()
+	{
+		$query = "SELECT * FROM history WHERE type = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array("withdraw"));
+		if ($stmt->rowCount() > 0) {
+			return $stmt;
+		}
+		return false;
+	}
+
+	public function getRecentRecharge()
+	{
+		$query = "SELECT id FROM package WHERE uid = ? ORDER BY id DESC LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id));
+		if ($stmt->rowCount() > 0) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row['id'];
+			}
 		}
 		return false;
 	}
@@ -380,6 +442,31 @@ class User
 		$stmt = $this->conn->prepare($query);
 		if ($stmt->execute(array($amount, $this->id))) {
 			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function topEarnings($amount, $pid)
+	{
+		$query = "UPDATE earnings SET balance = ?, lastClaimed = ? WHERE uid = ? AND pid = ?";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($amount, date("Y-m-d H:i:s"), $this->id, $pid))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getLastClaimed($pid)
+	{
+		$query = "SELECT lastClaimed FROM earnings WHERE uid = ? AND pid = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($this->id, $pid));
+		if ($stmt->rowCount() == 1) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row['lastClaimed'];
+			}
 		} else {
 			return false;
 		}

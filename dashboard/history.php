@@ -3,41 +3,21 @@ require_once '../universal/includes/header.php';
 require_once '../universal/includes/sidebar.php';
 ?>
 
-<h1>History</h1>
-<br>
+<h1><b>History</b></h1>
+<span><i>Top 10 recent history</i></span>
+<br><br>
 <div class="table-responsive">
 	<table class="table">
 		<thead class="table-dark">
 			<tr>
 				<th scope="col">S/N</th>
 				<th scope="col">Type</th>
-				<th scope="col">Amount</th>
+				<th scope="col">Package / Amount</th>
 				<th scope="col">Date</th>
-				<th scope="col">Status</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>Recharge</td>
-				<td>₦5000</td>
-				<td>01/08/2023</td>
-				<td>Success</td>
-			</tr>
-            <tr>
-				<th scope="row">2</th>
-				<td>Recharge</td>
-				<td>₦3000</td>
-				<td>04/08/2023</td>
-				<td>Failed</td>
-			</tr>
-            <tr>
-				<th scope="row">3</th>
-				<td>Recharge</td>
-				<td>₦2000</td>
-				<td>05/08/2023</td>
-				<td>Pending</td>
-			</tr>
+			<?php include_once '../inc/getHistory.php'; ?>
 		</tbody>
 	</table>
 </div>

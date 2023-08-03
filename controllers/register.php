@@ -68,7 +68,6 @@ if (isset($_POST['register']))
 		// CREATE ALL WALLET
 		$user->code = $myCode;
 		$user->id = $user->getRefId();
-		$user->createEarnings();
 		$user->createRefEarnings();
 		$user->createWallet();
 		

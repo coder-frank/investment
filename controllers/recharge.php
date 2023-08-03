@@ -30,6 +30,7 @@ if (isset($_POST['recharge']) && isset($_SESSION['userId'])) {
 	$check = $user->getPackages();
 	if ($check->rowCount() >= 2) {
 		echo "You cannot have more than two active packages";
+		return;
 	}
 	$today = date("Y-m-d H:i:s");
 
@@ -45,6 +46,7 @@ if (isset($_POST['recharge']) && isset($_SESSION['userId'])) {
 	$recharge = $user->recharge($type, "active", $expire);
 	if ($recharge == true) {
 		//GENERATE COMMISSION
+		$type = $user->accType();
 		$refId = $user->getRefBy();
 		$user->id = $refId;
 		$oldBonus = $user->getrefEarning();
@@ -61,6 +63,14 @@ if (isset($_POST['recharge']) && isset($_SESSION['userId'])) {
 		$new = $oldBonus + $commision;
 
 		$user->topBonus($new);
+		$user->addHistory($commision, "Referral");
+
+		$user->id = $_SESSION['userId'];
+
+		//GET RECENT RECHARGE
+		$pid = $user->getRecentRecharge();
+		$user->createEarnings($pid);
+		$user->addHistory($type, "Recharge");
 
 		// REDIRECT USER
 		$user->deactivateCode($code);

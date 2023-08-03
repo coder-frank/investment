@@ -17,7 +17,7 @@ require_once '../universal/includes/sidebar.php';
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php include_once '../inc/getEarning.php' ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-money-bill-wave fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +84,6 @@ require_once '../universal/includes/sidebar.php';
                             <br>
                         </div>
                         <br><br>
-                        <h3><b>Active Packages</b></h3>
                         <div class="task-holder">
                             <?php include_once '../inc/package.php'; ?>
                         </div>

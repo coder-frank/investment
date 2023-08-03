@@ -21,24 +21,14 @@ require_once '../universal/includes/sidebar.php';
         <thead class="table-dark">
              <tr>
                 <th scope="col">S/N</th>
-                <th scope="col">Amount</th>
+                <th scope="col">Type</th>
+                <th scope="col">Package / Amount</th>
                 <th scope="col">Date</th>
-                <th scope="col">Status</th>
              </tr>   
         </thead>
-        <tr>
-				<th scope="row">1</th>
-				<td>₦4000</td>
-				<td>01/07/2023</td>
-				<td>Success</td>
-			</tr>
-                    <tr>
-				<th scope="row">2</th>
-				<td>₦1000</td>
-				<td>03/07/2023</td>
-				<td>Failed</td>
-			</tr>
-
+        <tbody>
+        <?php include_once '../inc/getRechargeHistory.php'; ?>
+        </tbody>
     </table>
 </div>
 

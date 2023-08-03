@@ -44,7 +44,21 @@ if ($user->packageExits() == true)
 		{
 			$button = '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Withdraw</button>';
 		} else {
-			$button = '<button class="btn btn-primary">Claim</button>';
+			$last = $user->getLastClaimed($package['id']);
+			if ($last != false) {
+				// Assuming you have a DateTime object, $dateTime, representing the date you want to check.
+				$dateTime = new DateTime($last);
+
+				// Get the current date in the "Y-m-d" format (without time)
+				$currentDate = date("Y-m-d");
+
+				// Format the DateTime object to get its date part in the "Y-m-d" format (without time)
+				$dateTimeDate = $dateTime->format("Y-m-d");
+				if ($dateTimeDate !== $currentDate)
+				{
+					$button = '<a href="../controllers/claim.php?pid='.$package['id'].'"><button class="btn btn-primary">Claim</button></a>';
+				}
+			}
 		}
 		echo '
 		<div class="task">
@@ -53,7 +67,7 @@ if ($user->packageExits() == true)
 			<h4><b>'.ucfirst($package['type']).'</b></h4>
 				'.$button.'
 			</div>
-			<h5>Total Claimed: ₦5,000</h5>
+			<h5>Total Claimed: ₦'.number_format($user->getEarnings($package['id'])).'</h5>
 			<div class="progress progress-sm mr-2">
 			<div class="progress-bar bg-info" role="progressbar" style="width: '.$progress.'%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>

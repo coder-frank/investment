@@ -10,8 +10,15 @@ require_once '../inc/core.php';
 	$user->id = $_SESSION['userId'];
 
 	// GET EARNINGS
-	$earning = $user->getEarnings();
-	echo "₦".$earning;
+	$balance = 0;
+	$earning = $user->getWithdrawal();
+	if ($earning != false)
+	{
+		while ($row = $earning->fetch(PDO::FETCH_ASSOC))
+		{
+			$balance += $row['amount'];
+		}
+	}
+	echo "₦".$balance;
 	
 }
-?>
