@@ -45,7 +45,7 @@
 			<a class="nav-link" href="./register.php">Register</a>
 		      </li>
 		      <li class="nav-item">
-			<a class="nav-link" href="./login.html">Login</a>
+			<a class="nav-link" href="./login.php">Login</a>
 		      </li>
 		      
 		    </ul>
@@ -58,6 +58,14 @@
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
+                <?php
+                            session_start();
+                            if (isset($_SESSION['message']))
+                            {
+                            echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
+                            unset($_SESSION['message']);
+                            }
+                        ?>
                 <div class="row">
                     <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                     <div class="col-lg-7">
@@ -116,7 +124,7 @@
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
                             </div> -->
                             <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="login.php">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['userEmail']))
 {
-    header("location:../login.html");
+    header("location:../login.php");
 }
 ?>
 <!DOCTYPE html>
