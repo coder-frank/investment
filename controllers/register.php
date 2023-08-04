@@ -3,6 +3,7 @@
 if (isset($_POST['register']))
 {
 	require_once './core.php';
+	session_start();
 
 	// GET AND SANITIZE FORM DATA
 	$type = $user->sanitizeString($_POST['type']);
@@ -43,31 +44,33 @@ if (isset($_POST['register']))
 		return;
 	}
 
+	
+
 
 	// CHECK CODE EXITS
-	if ($code != ""  && $user->codeExits() == false)
+	if ($code != ""  && $user->codeExits($code) == false)
 	{
 		$_SESSION['message'] = "Referral Code do not exit";
 		header("location:../register.php");
 		return;
-	} else {
-		// GET AND ASSIGN REF ID
-		$refId = $user->getRefId();
-		$user->refId = $refId;
 	}
 
 	// GENERATE AND ASSIGN CODE
-	$myCode = $user->generateCode($code);
-	while ($user->codeExits($code) == false)
-	{
-		$myCode = $user->generateCode($code);
-	}
+	$myCode = $user->generateUniqueCode();
 	$user->myCode = $myCode;
 
 
 	$register = $user->register();
 	if ($register == true)
 	{
+		// ADD REF ID
+		if ($code != "")
+		{
+			$user->code = $code;
+			$refId = $user->getRefId();
+
+			$updateU = $user->addRefId($refId);
+		}
 		// CREATE ALL WALLET
 		$user->code = $myCode;
 		$user->id = $user->getRefId();

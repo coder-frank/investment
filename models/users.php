@@ -80,6 +80,17 @@ class User
 		return $code;
 	}
 
+	public function generateUniqueCode()
+	{
+		$code = $this->generateCode();
+        
+		while ($this->codeExits($code)) {
+		$code = $this->generateCode();
+		}
+		
+		return $code;
+	}
+
 	public function emailExits()
 	{
 		$query = "SELECT email FROM " . $this->table . " WHERE email = ? LIMIT 1";
@@ -92,11 +103,11 @@ class User
 		}
 	}
 
-	public function codeExits()
+	public function codeExits($code)
 	{
 		$query = "SELECT refCode FROM " . $this->table . " WHERE refCode = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->code));
+		$stmt->execute(array($code));
 		if ($stmt->rowCount() == 1) {
 			return true;
 		} else {
@@ -113,6 +124,18 @@ class User
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return $row['id'];
 			}
+		} else {
+			return false;
+		}
+	}
+
+	public function addRefId($rid)
+	{
+		$query = "UPDATE users SET refBy = ? WHERE refCode = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($rid, $this->myCode));
+		if ($stmt->rowCount() == 1) {
+			return true;
 		} else {
 			return false;
 		}
@@ -148,9 +171,9 @@ class User
 
 	public function register()
 	{
-		$query = "INSERT INTO " . $this->table . " (type, fname, lname, phone, email, password, refCode, status, refBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$query = "INSERT INTO " . $this->table . " (type, fname, lname, phone, email, password, refCode, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		$stmt = $this->conn->prepare($query);
-		$stmt->execute(array($this->type, $this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status, $this->refId));
+		$stmt->execute(array($this->type, $this->fname, $this->lname, $this->phone, $this->email, $this->password, $this->myCode, $this->status));
 		if ($stmt) {
 			return true;
 		}
