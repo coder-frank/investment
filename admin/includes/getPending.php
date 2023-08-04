@@ -6,7 +6,7 @@ if (isset($_SESSION['adminId']))
 	// RUN LOGIN FUNCTION
 	$withdraw = $admin->getWithdrawal();
 	$total = 0;
-	if ($package != false)
+	if ($withdraw != false)
 	{
 		while ($row = $withdraw->fetch(PDO::FETCH_ASSOC)) {
 			if ($row['status'] == "Pending")
