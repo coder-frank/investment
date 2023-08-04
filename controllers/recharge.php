@@ -15,22 +15,31 @@ if (isset($_POST['recharge']) && isset($_SESSION['userId'])) {
 
 	// GET RECHARGE CODE DETAILS
 	$rCode = $user->getRechargeCode($code);
+	if ($rCode == false)
+	{
+		$_SESSION['message'] = "Invalid code";
+		header("location:../dashboard/recharge.php");
+		die();
+	}
 
 	if ($type != $rCode['type']) {
-		echo "This code is not meant for your account type";
-		return;
+		$_SESSION['message'] = "This code is not meant for your account type";
+		header("location:../dashboard/recharge.php");
+		die();
 	}
 
 	if ($rCode['status'] != "active") {
-		echo "Sorry, Looks like this code has been used!";
-		return;
+		$_SESSION['message'] = "Sorry, Looks like this code has been used!";
+		header("location:../dashboard/recharge.php");
+		die();
 	}
 
 	// CHECK ACTIVE PACKAGES
 	$check = $user->getPackages();
 	if ($check->rowCount() >= 2) {
-		echo "You cannot have more than two active packages";
-		return;
+		$_SESSION['message'] = "You cannot have more than two active packages";
+		header("location:../dashboard/recharge.php");
+		die();
 	}
 	$today = date("Y-m-d H:i:s");
 
@@ -74,8 +83,9 @@ if (isset($_POST['recharge']) && isset($_SESSION['userId'])) {
 
 		// REDIRECT USER
 		$user->deactivateCode($code);
-		header("location:../dashboard");
+		$_SESSION['message'] = "Recharge Successful";
 	} else {
-		echo "Something went wrong";
+		$_SESSION['message'] = "Something went wrong";
 	}
+	header("location:../dashboard/recharge.php");
 }

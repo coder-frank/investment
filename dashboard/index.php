@@ -78,6 +78,13 @@ require_once '../universal/includes/sidebar.php';
                                 </div>
                             </div>
                         </div>
+                        <?php
+                        if (isset($_SESSION['message']))
+                        {
+                        echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
+                        unset($_SESSION['message']);
+                        }
+                        ?>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" readonly value="Referral Code: <?php include_once '../inc/getRefCode.php' ?>" aria-label="Referral Code" aria-describedby="button-addon2">
                             <button class="btn btn-primary" type="button" id="button-addon2">Copy</button>

@@ -11,16 +11,17 @@ if (isset($_POST['adminLogin']))
 
 	// RUN LOGIN FUNCTION
 	$login = $admin->login($email, $password);
+	session_start();
 	if ($login != false)
 	{
 		// START SESSION FOR USER
-		session_start();
 		$_SESSION['adminId'] = $login['id'];
 		$_SESSION['adminEmail'] = $email;
 		header("location:../");
 	} else
 	{
-		echo "Email/Password Incorrect";
+		$_SESSION['message']  = "Email/Password Incorrect";
+		header("location:../login.php");
 	}
 
 }

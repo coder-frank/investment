@@ -16,7 +16,7 @@ if (isset($_SESSION['adminId']))
 		header("location:../withdraw.php");
 	} else
 	{
-		echo "Something Went Wrong";
+		$_SESSION['message']  = "Something Went Wrong";
 	}
 
 }

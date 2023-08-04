@@ -4,6 +4,13 @@ require_once '../universal/includes/sidebar.php';
 ?>
 
 <h3>Withdrawal</h3>
+<?php
+                        if (isset($_SESSION['message']))
+                        {
+                        echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
+                        unset($_SESSION['message']);
+                        }
+                        ?>
 <br><br>
 
 <form class="user" method="post" action="../controllers/withdraw.php">

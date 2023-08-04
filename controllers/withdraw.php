@@ -14,8 +14,8 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 	// CHECK FOR MINIMUM WITHDRAWAL
 	if ($amount < 1500)
 	{
-		echo 'Sorry: Minimum withdrawal allowed is ₦1,500';
-		return;
+		$_SESSION['message'] = 'Sorry: Minimum withdrawal allowed is ₦1,500';
+		header("location:../dashboard/withdraw.php");
 	}
 
 	// CHECK PREVIOUS WITHDRAWAL
@@ -34,8 +34,8 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		}
 		if ($todayW >= 2)
 		{
-			echo 'Sorry you cannot place withdrawal more than twice a day!';
-			return;
+			$_SESSION['message'] = 'Sorry you cannot place withdrawal more than twice a day!';
+			header("location:../dashboard/withdraw.php");
 		}
 	}
 	
@@ -60,8 +60,8 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 
 			if ($cCount > 0)
 			{
-				echo "A similar withdrawal has already been initaited, please try again when it has been approved";
-				return;
+				$_SESSION['message'] = "A similar withdrawal has already been initaited, please try again when it has been approved";
+				header("location:../dashboard/withdraw.php");
 			}
 		}
 
@@ -81,8 +81,8 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		{
 			$old = $user->getWallet();
 		} else {
-			echo "Sorry, you need to have an active package in order to withdraw from your E-Wallet";
-			return;
+			$_SESSION['message'] = "Sorry, you need to have an active package in order to withdraw from your E-Wallet";
+			header("location:../dashboard/withdraw.php");
 		}
 
 	} else if ($type == 1)
@@ -103,15 +103,15 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 
 			if ($cCount > 0)
 			{
-				echo "A similar withdrawal has already been initaited, please try again when it has been approved";
-				return;
+				$_SESSION['message'] = "A similar withdrawal has already been initaited, please try again when it has been approved";
+				header("location:../dashboard/withdraw.php");
 			}
 		}
 		$old = $user->getrefEarning();
 
 	} else {
-		echo "Withdrawal Type not supported";
-		return;
+		$_SESSION['message'] = "Withdrawal Type not supported";
+		header("location:../dashboard/withdraw.php");
 	}
 
 
@@ -121,17 +121,20 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		$withdraw = $user->addWithdraw($amount, $type);
 		if ($withdraw != false)
 		{
+			$_SESSION['message'] = "Withdrawal Successful";
 			header("location:../dashboard/withdraw.php");
 		} else
 		{
-			echo "Something went wrong";
+			$_SESSION['message'] = "Something went wrong";
+			header("location:../dashboard/withdraw.php");
 			return;
 		}
 
 	} else
 	{
 		// INSUFFICIENT FUNDS
-		echo "Insufficient Funds";
+		$_SESSION['message'] = "Insufficient Funds";
+		header("location:../dashboard/withdraw.php");
 	}
 
 }

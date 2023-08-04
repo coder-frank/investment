@@ -17,7 +17,7 @@ if (isset($_SESSION['adminId']))
 		header("location:../");
 	} else
 	{
-		echo "Something Went Wrong";
+		$_SESSION['message']  = "Something Went Wrong";
 	}
 
 }

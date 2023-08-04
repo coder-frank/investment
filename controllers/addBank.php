@@ -21,10 +21,10 @@ if (isset($_POST['addBank']) && isset($_SESSION['userId']))
 	if ($add == true)
 	{
 		// REDIRECT USER
-		header("location:../dashboard");
+		$_SESSION['message'] = "Bank Added Successfully";
 	} else
 	{
-		echo "Something went wrong";
+		$_SESSION['message'] = "Something went wrong";
 	}
-
+	header("location:../dashboard");
 }

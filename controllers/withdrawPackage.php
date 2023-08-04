@@ -26,8 +26,8 @@ if (isset($_SESSION['userId']))
 		}
 		if ($todayW >= 2)
 		{
-			echo 'Sorry you cannot place withdrawal more than twice a day!';
-			return;
+			$_SESSION['message'] = 'Sorry you cannot place withdrawal more than twice a day!';
+			header("location:../dashboard");
 		}
 	}
 
@@ -36,8 +36,8 @@ if (isset($_SESSION['userId']))
 	$amount = $user->getWallet($pid);
 	if ($amount > 0)
 	{
-		echo "Please first withdraw the money in your E-Wallet before initaiting withdrawal";
-		return;
+		$_SESSION['message'] = "Please first withdraw the money in your E-Wallet before initaiting withdrawal";
+		header("location:../dashboard");
 	}
 	$amount = $user->getEarnings($pid);
 	// CHECK ACTIVE PACKAGES
@@ -58,11 +58,10 @@ if (isset($_SESSION['userId']))
 		{
 			$user->deletePackage($pid);
 			header("location:../dashboard");
-			return;
 		} else
 		{
-			echo "Something went wrong";
-			return;
+			$_SESSION['message'] = "Something went wrong";
+			header("location:../dashboard");
 		}
 
 	} else {
@@ -73,12 +72,12 @@ if (isset($_SESSION['userId']))
 			$oldWallet = $user->getWallet();
 			$user->topWallet($amount + $oldWallet);
 			$user->deletePackage($pid);
-			echo "you must have an active recharge to access full withdrawal,when u have active recharge, open the external wallet to withdraw your balance";
+			$_SESSION['message'] = "You must have an active recharge to access full withdrawal,when u have active recharge, open the external wallet to withdraw your balance";
 			header("location:../dashboard");
 		} else
 		{
-			echo "Something went wrong";
-			return;
+			$_SESSION['message'] = "Something went wrong";
+			header("location:../dashboard");
 		}
 	}
 	

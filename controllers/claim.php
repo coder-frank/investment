@@ -29,11 +29,11 @@ if (isset($_SESSION['userId']))
 
 	if ($topUp != false)
 	{
-		
-		header("location:../dashboard");
+		$_SESSION['message'] = "Claimed Successfully";
 	} else
 	{
-		echo "Something went wrong";
+		$_SESSION['message'] = "Something went wrong";
 	}
+	header("location:../dashboard");
 
 }

@@ -22,8 +22,37 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-dark">
 
+    <nav class="navbar fixed-top navbar-expand-lg bg-light" data-bs-theme="light">
+		<div class="container-fluid">
+		<a class="navbar-brand" href="#">
+			<!--<img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
+				Unknown
+		</a>
+		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNav">
+		    <ul class="navbar-nav">
+		      <li class="nav-item">
+			<a class="nav-link active" aria-current="page" href="./">Home</a>
+		      </li>
+		      <li class="nav-item">
+			<a class="nav-link" href="./vendors.html">Vendors</a>
+		      </li>
+		      <li class="nav-item">
+			<a class="nav-link" href="./register.php">Register</a>
+		      </li>
+		      <li class="nav-item">
+			<a class="nav-link" href="./login.html">Login</a>
+		      </li>
+		      
+		    </ul>
+		  </div>
+		</div>
+	      </nav>
+<br><br>
     <div class="container">
 
         <div class="card o-hidden border-0 shadow-lg my-5">
@@ -39,9 +68,9 @@
                             <form class="user" method="post" action="./controllers/register.php">
                                 <select class="form-select form-control" required name="type" aria-label="Default select example">
                                     <option disabled>Account Type</option>
-                                    <option value="classic">Classic</option>
-                                    <option value="silver">Silver</option>
-                                    <option value="diamond">Diamond</option>
+                                    <option value="classic">Classic - ₦2500</option>
+                                    <option value="silver">Silver - ₦4000</option>
+                                    <option value="diamond">Diamond - ₦10,000</option>
                                 </select>
 
                                 <br>
@@ -82,9 +111,10 @@
                                 </button>
                             </form>
                             <hr>
+                            <!--
                             <div class="text-center">
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
+                            </div> -->
                             <div class="text-center">
                                 <a class="small" href="login.html">Already have an account? Login!</a>
                             </div>

@@ -36,7 +36,7 @@ if (isset($_POST['generate']) && isset($_SESSION['adminId']))
 		
 	} else
 	{
-		echo "Email/Password Incorrect";
+		$_SESSION['message']  = "Something went wrong";
 	}
 
 }

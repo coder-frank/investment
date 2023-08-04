@@ -17,7 +17,8 @@ if (isset($_POST['register']))
 	// CHECK IF PASSWORDS MATCH
 	if ($password != $rpassword)
 	{
-		echo "Password do not match";
+		$_SESSION['message'] = "Password do not match";
+		header("location:../register.php");
 		return;
 	}
 
@@ -37,7 +38,8 @@ if (isset($_POST['register']))
 	// CHECK USER EXITS
 	if ($user->emailExits($email) == false)
 	{
-		echo "Email Already exits";
+		$_SESSION['message'] = "Email Already exits";
+		header("location:../register.php");
 		return;
 	}
 
@@ -45,7 +47,8 @@ if (isset($_POST['register']))
 	// CHECK CODE EXITS
 	if ($code != ""  && $user->codeExits() == false)
 	{
-		echo "Referral Code do not exit";
+		$_SESSION['message'] = "Referral Code do not exit";
+		header("location:../register.php");
 		return;
 	} else {
 		// GET AND ASSIGN REF ID
@@ -71,10 +74,10 @@ if (isset($_POST['register']))
 		$user->createRefEarnings();
 		$user->createWallet();
 		
-		echo "Registration successful";
+		$_SESSION['message'] = "Registration successful";
 	} else {
-		echo "Something went wrong";
+		$_SESSION['message'] = "Something went wrong";
 	}
 
-
+	header("location:../register.php");
 }

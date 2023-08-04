@@ -14,10 +14,11 @@ if (isset($_SESSION['adminId']))
 	if ($delete == true)
 	{
 		// START SESSION FOR USER
+		$_SESSION['message']  = "User deleted";
 		header("location:../");
 	} else
 	{
-		echo "Something Went Wrong";
+		$_SESSION['message']  = "Something Went Wrong";
 	}
 
 }

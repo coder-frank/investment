@@ -266,7 +266,8 @@ class User
 	{
 		$query = "SELECT * FROM recharge WHERE code = ? LIMIT 1";
 		$stmt = $this->conn->prepare($query);
-		if ($stmt->execute(array($code))) {
+		$stmt->execute(array($code));
+		if ($stmt->rowCount() == 1) {
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				return $row;
 			}

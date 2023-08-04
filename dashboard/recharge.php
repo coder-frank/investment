@@ -4,6 +4,13 @@ require_once '../universal/includes/sidebar.php';
 ?>
 
 <h2>Recharge</h2>
+<?php
+                        if (isset($_SESSION['message']))
+                        {
+                        echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
+                        unset($_SESSION['message']);
+                        }
+                        ?>
 <br>
 <form action="../controllers/recharge.php" method="post">
 

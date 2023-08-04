@@ -31,7 +31,7 @@ if (isset($_SESSION['adminId']))
 				$admin->deductBonus($uid, $amount);
 			} else
 			{
-				echo "Insufficient Balance, please decline this withdrawal";
+				$_SESSION['message']  = "Insufficient Balance, please decline this withdrawal";
 				return;
 			}
 		} else if ($type == "E-Wallet")
@@ -44,7 +44,7 @@ if (isset($_SESSION['adminId']))
 				$admin->deductWallet($uid, $amount);
 			} else
 			{
-				echo "Insufficient Balance, please decline this withdrawal";
+				$_SESSION['message'] = "Insufficient Balance, please decline this withdrawal";
 			}
 		}
 
@@ -54,7 +54,7 @@ if (isset($_SESSION['adminId']))
 		header("location:../withdraw.php");
 	} else
 	{
-		echo "Something Went Wrong";
+		$_SESSION['message'] = "Something Went Wrong";
 	}
 
 }

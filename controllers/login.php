@@ -23,7 +23,7 @@ if (isset($_POST['login']))
 		header("location:../dashboard");
 	} else
 	{
-		echo "Email/Password Incorrect";
+		$_SESSION['message'] = "Email/Password Incorrect";
 	}
 
 }
