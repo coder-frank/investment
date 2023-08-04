@@ -28,6 +28,7 @@ if (isset($_SESSION['userId']))
 		{
 			$_SESSION['message'] = 'Sorry you cannot place withdrawal more than twice a day!';
 			header("location:../dashboard");
+			die();
 		}
 	}
 
@@ -38,6 +39,7 @@ if (isset($_SESSION['userId']))
 	{
 		$_SESSION['message'] = "Please first withdraw the money in your E-Wallet before initaiting withdrawal";
 		header("location:../dashboard");
+		die();
 	}
 	$amount = $user->getEarnings($pid);
 	// CHECK ACTIVE PACKAGES
@@ -62,6 +64,7 @@ if (isset($_SESSION['userId']))
 		{
 			$_SESSION['message'] = "Something went wrong";
 			header("location:../dashboard");
+			die();
 		}
 
 	} else {
@@ -74,10 +77,12 @@ if (isset($_SESSION['userId']))
 			$user->deletePackage($pid);
 			$_SESSION['message'] = "You must have an active recharge to access full withdrawal,when u have active recharge, open the external wallet to withdraw your balance";
 			header("location:../dashboard");
+			die();
 		} else
 		{
 			$_SESSION['message'] = "Something went wrong";
 			header("location:../dashboard");
+			die();
 		}
 	}
 	

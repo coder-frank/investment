@@ -16,6 +16,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 	{
 		$_SESSION['message'] = 'Sorry: Minimum withdrawal allowed is ₦1,500';
 		header("location:../dashboard/withdraw.php");
+		die();
 	}
 
 	// CHECK PREVIOUS WITHDRAWAL
@@ -36,6 +37,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		{
 			$_SESSION['message'] = 'Sorry you cannot place withdrawal more than twice a day!';
 			header("location:../dashboard/withdraw.php");
+			die();
 		}
 	}
 	
@@ -62,6 +64,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 			{
 				$_SESSION['message'] = "A similar withdrawal has already been initaited, please try again when it has been approved";
 				header("location:../dashboard/withdraw.php");
+				die();
 			}
 		}
 
@@ -83,6 +86,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		} else {
 			$_SESSION['message'] = "Sorry, you need to have an active package in order to withdraw from your E-Wallet";
 			header("location:../dashboard/withdraw.php");
+			die();
 		}
 
 	} else if ($type == 1)
@@ -105,6 +109,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 			{
 				$_SESSION['message'] = "A similar withdrawal has already been initaited, please try again when it has been approved";
 				header("location:../dashboard/withdraw.php");
+				die();
 			}
 		}
 		$old = $user->getrefEarning();
@@ -112,6 +117,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 	} else {
 		$_SESSION['message'] = "Withdrawal Type not supported";
 		header("location:../dashboard/withdraw.php");
+		die();
 	}
 
 
@@ -123,11 +129,12 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		{
 			$_SESSION['message'] = "Withdrawal Successful";
 			header("location:../dashboard/withdraw.php");
+			die();
 		} else
 		{
 			$_SESSION['message'] = "Something went wrong";
 			header("location:../dashboard/withdraw.php");
-			return;
+			die();
 		}
 
 	} else
@@ -135,6 +142,7 @@ if (isset($_SESSION['userId']) && isset($_POST['withdraw']))
 		// INSUFFICIENT FUNDS
 		$_SESSION['message'] = "Insufficient Funds";
 		header("location:../dashboard/withdraw.php");
+		die();
 	}
 
 }

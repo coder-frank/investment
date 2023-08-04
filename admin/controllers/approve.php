@@ -24,15 +24,20 @@ if (isset($_SESSION['adminId']))
 		if ($type == "Bonus")
 		{
 			$old = $admin->getBonus($uid);
-			
+			echo "Uid: ".$uid."Old: ".$old."<br>";
 			if ($old >= $amount)
 			{
-				$new = $old - $new;
-				$admin->deductBonus($uid, $amount);
+				$new = $old - $amount;
+				$deduct = $admin->deductBonus($uid, $new);
+				if ($deduct == true)
+				{
+					$_SESSION['message']  = "Transaction approved";
+				} else {
+					$_SESSION['message']  = "Something went wrong";
+				}
 			} else
 			{
 				$_SESSION['message']  = "Insufficient Balance, please decline this withdrawal";
-				return;
 			}
 		} else if ($type == "E-Wallet")
 		{
@@ -40,7 +45,7 @@ if (isset($_SESSION['adminId']))
 			
 			if ($old >= $amount)
 			{
-				$new = $old - $new;
+				$new = $old - $amount;
 				$admin->deductWallet($uid, $amount);
 			} else
 			{

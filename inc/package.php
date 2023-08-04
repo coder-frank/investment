@@ -41,7 +41,7 @@ if ($user->packageExits() == true)
 				break;
 		}
 
-		if ($date == $exp)
+		if ($daysDifference == 0)
 		{
 			$color = "red";
 			$button = '<a href="../controllers/withdrawPackage.php?pid='.$package['id'].'"><button class="btn btn-success">Withdraw</button></a>';
