@@ -8,6 +8,11 @@
     outline: none;
     scroll-behavior: smooth;
 }
+
+a {
+    text-decoration: none;
+}
+
 html{
     font-size: 68.5%;
     overflow-x: hidden;
@@ -33,7 +38,7 @@ section{
     left: 0;
     width: 100%;
     padding: 2rem 9%;
-    background: #4e73df;
+    background: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,27 +49,28 @@ section{
 }
 .logo{
     font-size: 2.5rem;
-    color: var(--text-color);
+    color: black;
     font-weight: 600;
     cursor: default;
+    text-decoration: none;
 }
 .header .nav a {
     font-size: 1.7rem;
-    color: var(--text-color);
+    color: black;
     margin-left: 3.4rem;
     transition: .3s ease-out;
+    text-decoration: none;
 }
 .nav a:hover,
 .nav a.active {
-    color: red;
+    color: rgb(255, 0, 0);
 }
 .header .btn{
     color: var(--text-color);
     font-size: 1.7rem;
-    background: red;
+    background: rgb(7, 160, 221);
     padding: .2rem 1.6rem;
     border-radius: 1rem;
-    box-shadow: 0 0 1rem rgba(255, 0, 0, 0.591);
     transition: .5s ease;
 }
 .header .btn:hover{
@@ -119,7 +125,7 @@ section{
     box-shadow: none;
 }
 .row{
-    background: #071b2a; 
+    background: #00142b; 
    position: relative;
 }
 .row .items{
@@ -138,7 +144,7 @@ section{
    height: 100%;
     padding: 10px;
     margin: 10px;
-    background: #0A2940;
+    background: #fafafa;
     border-radius: 5px;
     box-shadow: 5px 5px 20px rgba(0,0,0,0.3), -5px -5px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.5s ease;
@@ -150,9 +156,10 @@ section{
     align-items: center;
     justify-content: center;
     text-align: center;
-    border: 1px solid red;
+    border: 1px solid rgb(0, 73, 102);
     border-radius: 80%;
     transition: .3s all ease-in;
+    color: black;
 }
 .row .items .box1:hover .icon {
     background: red;
@@ -169,11 +176,12 @@ section{
     transition: .3s all ease-in;
 }
 .row .items .box1:hover h3{
-    color: var(--text-color);
+    color: black;
 }
 .row .items .box1 span{
     font-size: 2rem;
     font-family: 'Verdana', sans-serif;
+    color: black;
 }
 .about h1{
     font-size: 3rem;
@@ -237,7 +245,8 @@ section{
 
 .plan{
     text-align: center;
-    background: #0A2940;
+    background: #f3f3f3;
+    color: black;
 }
 .plan span{
     color: red;
@@ -268,6 +277,7 @@ section{
     padding: 10px;
     margin: 10px;
     background: #071b2a;
+    color: white;
     border-radius: 5px;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.103), -5px -5px 20px rgba(0, 0, 0, 0.091);
     transition: all 0.3s ease-in
@@ -276,7 +286,7 @@ section{
     transform: scale(1.05);
 }
 .plan .plan-item .bx1 h3{
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding: 3rem;
     font-size: 2rem;
     font-weight: 500;
