@@ -115,10 +115,9 @@ section{
 .hero-container .box .btn1{
     color: var(--text-color);
     font-size: 2rem;
-    background: red;
+    background: #4e73df;
     padding: .8rem 2rem;
     border-radius: 1rem;
-    box-shadow: 0 0 1rem rgb(255, 0, 0);
     transition: .5s ease;
 }
 .hero-container .box .btn1:hover{
@@ -162,7 +161,8 @@ section{
     color: black;
 }
 .row .items .box1:hover .icon {
-    background: red;
+    background: #4e73df;
+    color: white;
 }
 .row .items .box1 i{
     padding: 1.8rem;
@@ -172,7 +172,7 @@ section{
     font-size: 3.3rem;
     padding: 2rem;
     font-weight: 600;
-    color: red;
+    color: #4e73df;
     transition: .3s all ease-in;
 }
 .row .items .box1:hover h3{
@@ -187,9 +187,11 @@ section{
     font-size: 3rem;
     text-align: center;
     padding-bottom: 5rem;
+    margin-top: -13rem;
+
 }
 .about h1 span{
-    color: red;
+    font-weight: bold;
     font-family: 'Verdana', sans-serif;
 }
 .about .box{
@@ -222,7 +224,7 @@ section{
     padding-bottom: 2rem;
 }
 .about .box .about-content span{
-    color: red;
+    color: #4e73df;
     font-family: 'Verdana', sans-serif;
 }
 .about .box .about-content p{
@@ -233,10 +235,9 @@ section{
 .about .box .about-content .btn2{
     color: var(--text-color);
     font-size: 2rem;
-    background: red;
+    background: #4e73df;
     padding: .8rem 2rem;
     border-radius: 2rem;
-    box-shadow: 0 0 1rem rgb(255, 0, 0);
     transition: .5s all ease-in;
 }
 .about .box .about-content .btn2:hover{
@@ -247,9 +248,9 @@ section{
     text-align: center;
     background: #f3f3f3;
     color: black;
+    margin-top: -5rem;
 }
 .plan span{
-    color: red;
     font-family: 'Verdana', sans-serif;
     font-size: 2rem;
     
@@ -276,8 +277,8 @@ section{
     text-align: center;
     padding: 10px;
     margin: 10px;
-    background: #071b2a;
-    color: white;
+    background: white;
+    color: #071b2a;
     border-radius: 5px;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.103), -5px -5px 20px rgba(0, 0, 0, 0.091);
     transition: all 0.3s ease-in
@@ -299,10 +300,9 @@ section{
 .plan .plan-item .bx1 .btn3{
     color: var(--text-color);
     font-size: 2rem;
-    background: red;
+    background: #4e73df;
     padding: .8rem 2rem;
     border-radius: 2rem;
-    box-shadow: 0 0 1rem rgb(255, 0, 0);
     transition: .5s all ease-in;
 }
 .plan .plan-item .bx1 .btn3:hover{
