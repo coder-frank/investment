@@ -10,24 +10,26 @@ if ($user->packageExits() == true)
 	while ($package = $row->fetch(PDO::FETCH_ASSOC)) {
 		$exp = explode(" ", $package['date_expire']);
 		$exp = $exp[0];
+
 		$dateStarted =  explode(" ", $package['date_created']);
 		$dateStarted = $dateStarted[0];
 		$button = "";
-		$status = $package['date_expire'];
-		$startDate = new DateTime($dateStarted);
-		$endDate = new DateTime($exp);
+		$status = $package['status'];
+		$d_E = $exp;
 
-		// Convert date strings to timestamps
-		$expire = strtotime($exp);
-		$today = strtotime($date);
+		// REMOVE - 
+		$dateStarted = str_replace('-', '', $dateStarted);
+		$exp = str_replace('-', '', $exp);
+
+		// CONVERT TO INTEGER
+		$dateStarted = intval($dateStarted);
+		$exp = intval($exp);
 
 		// Calculate the difference between the two dates
-		$interval = $startDate->diff($endDate);
+		$interval = $exp - $dateStarted;
 
-		// Get the number of days from the interval
-		$daysDifference = $interval->days;
 		$progress = 20;
-		switch ($daysDifference) {
+		switch ($interval) {
 			case '2':
 				$progress = 80;
 				break;
@@ -46,23 +48,27 @@ if ($user->packageExits() == true)
 				break;
 		}
 
-		if ($daysDifference == 0 || $expire >= $today)
+
+
+		if ($interval == 0 && $exp >= $dateStarted)
 		{
+
 			$color = "red";
 			$status = "Expired";
 			$button = '<a href="../controllers/withdrawPackage.php?pid='.$package['id'].'"><button class="btn btn-success">Withdraw</button></a>';
 		} else {
 			$last = $user->getLastClaimed($package['id']);
 			if ($last != false) {
-				// Assuming you have a DateTime object, $dateTime, representing the date you want to check.
-				$dateTime = new DateTime($last);
+				// REMOVE - 
+				$today = str_replace('-', '', date("Y-m-d"));
+				$last = str_replace('-', '', $last);
 
-				// Get the current date in the "Y-m-d" format (without time)
-				$currentDate = date("Y-m-d");
+				// CONVERT TO INTEGER
+				$today = intval($today);
+				$last = intval($last);
 
-				// Format the DateTime object to get its date part in the "Y-m-d" format (without time)
-				$dateTimeDate = $dateTime->format("Y-m-d");
-				if ($dateTimeDate !== $currentDate)
+				
+				if ($today > $last)
 				{
 					$button = '<a href="../controllers/claim.php?pid='.$package['id'].'"><button class="btn btn-primary">Claim</button></a>';
 				}
@@ -76,11 +82,11 @@ if ($user->packageExits() == true)
 				'.$button.'
 			</div>
 			<h5>Total Claimed: ₦'.number_format($user->getEarnings($package['id'])).'</h5>
-			<div class="progress progress-sm mr-2">
-			<div class="progress-bar bg-info" role="progressbar" style="width: '.$progress.'%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+			<div class="progress">
+			<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: '.$progress.'%" aria-valuenow="'.$progress.'" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
 			<br>
-			<i>Expires: '.$package['date_expire'].'</i>
+			<i>Expires: '.$d_E.'</i>
 			<br>
 			<span> <i class="fa fa-circle" style="color: '.$color.'"></i> &nbsp;'.ucfirst($status).'</span>
 			<br>
