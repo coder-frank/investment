@@ -13,8 +13,13 @@ if ($user->packageExits() == true)
 		$dateStarted =  explode(" ", $package['date_created']);
 		$dateStarted = $dateStarted[0];
 		$button = "";
+		$status = $package['date_expire'];
 		$startDate = new DateTime($dateStarted);
 		$endDate = new DateTime($exp);
+
+		// Convert date strings to timestamps
+		$expire = strtotime($exp);
+		$today = strtotime($date);
 
 		// Calculate the difference between the two dates
 		$interval = $startDate->diff($endDate);
@@ -41,9 +46,10 @@ if ($user->packageExits() == true)
 				break;
 		}
 
-		if ($daysDifference == 0)
+		if ($daysDifference == 0 || $expire >= $today)
 		{
 			$color = "red";
+			$status = "Expired";
 			$button = '<a href="../controllers/withdrawPackage.php?pid='.$package['id'].'"><button class="btn btn-success">Withdraw</button></a>';
 		} else {
 			$last = $user->getLastClaimed($package['id']);
@@ -76,7 +82,7 @@ if ($user->packageExits() == true)
 			<br>
 			<i>Expires: '.$package['date_expire'].'</i>
 			<br>
-			<span> <i class="fa fa-circle" style="color: '.$color.'"></i> &nbsp;'.ucfirst($package['status']).'</span>
+			<span> <i class="fa fa-circle" style="color: '.$color.'"></i> &nbsp;'.ucfirst($status).'</span>
 			<br>
 		</div>
 		';

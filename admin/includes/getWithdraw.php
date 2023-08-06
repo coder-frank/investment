@@ -5,6 +5,11 @@ if (isset($_SESSION['adminId']))
 
 	// RUN LOGIN FUNCTION
 	$withdraw = $admin->getWithdrawal();
+	if ($withdraw->rowCount() == 0)
+	{
+		echo "<div class='alert alert-primary'>No pending withdrawal found</div>";
+		return;
+	}
 	if ($withdraw != false)
 	{
 		$count = 1;
@@ -41,9 +46,6 @@ if (isset($_SESSION['adminId']))
 				$count++;
 			}
 		}
-	} else
-	{
-		echo "<div class='alert alert-primary'>No pending withdrawal found</div>";
 	}
 
 }

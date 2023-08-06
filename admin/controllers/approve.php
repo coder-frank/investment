@@ -46,7 +46,9 @@ if (isset($_SESSION['adminId']))
 			if ($old >= $amount)
 			{
 				$new = $old - $amount;
-				$admin->deductWallet($uid, $amount);
+				echo $new;
+				$admin->deductWallet($uid, $new);
+				$_SESSION['message'] = "Withdrawal approved successfully";
 			} else
 			{
 				$_SESSION['message'] = "Insufficient Balance, please decline this withdrawal";
