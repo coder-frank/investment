@@ -31,6 +31,14 @@
 <hr class="sidebar-divider">
 
 <li class="nav-item active">
+    <a class="nav-link" href="vendors.php">
+	<i class="fas fa-fw fa-money-bill"></i>
+	<span>Vendors</span></a>
+</li>
+
+<hr class="sidebar-divider">
+
+<li class="nav-item active">
     <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
 	<i class="fas fa-fw fa-power-off"></i>
 	<span>Sign Out</span></a>

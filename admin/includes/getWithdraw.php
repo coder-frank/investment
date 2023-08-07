@@ -7,7 +7,7 @@ if (isset($_SESSION['adminId']))
 	$withdraw = $admin->getWithdrawal();
 	if ($withdraw->rowCount() == 0)
 	{
-		echo "<div class='alert alert-primary'>No pending withdrawal found</div>";
+		$_SESSION['message'] = ">No pending withdrawal found";
 		return;
 	}
 	if ($withdraw != false)

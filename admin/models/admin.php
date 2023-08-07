@@ -250,4 +250,38 @@ class Admin
 			return 0;
 		}
 	}
+
+	public function addVendor($name, $phone, $message, $image)
+	{
+		$query = "INSERT INTO vendors(name, phone, message, image) VALUES (?, ?, ?, ?)";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($name, $phone, $message, $image))) {
+			return $stmt;
+		} else {
+			return false;
+		}
+	}
+
+	public function getVendors()
+	{
+		$query = "SELECT * FROM vendors ORDER BY id DESC";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+		if ($stmt->rowCount() > 0) {
+			return $stmt;
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteVendor($vid)
+	{
+		$query = "DELETE FROM vendors WHERE id = ? LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		if ($stmt->execute(array($vid))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

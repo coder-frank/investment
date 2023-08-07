@@ -299,3 +299,36 @@ section{
 .footer .credit span{
     color:red ;
 }
+
+.vendors {
+    width: 100%;
+    padding: 1rem;
+    color: #00142b;
+}
+
+.vendors ul li {
+    list-style-type: none;
+    background-color: white !important;
+    border-radius: 1rem;
+}
+
+.vendors ul li a {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 20px 0px;
+}
+
+.vendors ul li img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+article ul li div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}

@@ -257,6 +257,18 @@ class User
 		}
 	}
 
+	public function getVendors()
+	{
+		$query = "SELECT * FROM vendors ORDER BY id DESC";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+		if ($stmt->rowCount() > 0) {
+			return $stmt;
+		} else {
+			return false;
+		}
+	}
+
 	public function getBank()
 	{
 		$query = "SELECT * FROM bank WHERE uid = ? LIMIT 1";

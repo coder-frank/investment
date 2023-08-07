@@ -3,6 +3,13 @@ require_once './includes/header.php';
 require_once './includes/sidebar.php';
 ?>
 
+<?php
+    if (isset($_SESSION['message']))
+    {
+     echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
+     unset($_SESSION['message']);
+    }
+?>
 
 <div class="table-responsive">
     <table class="table">
