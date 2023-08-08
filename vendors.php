@@ -12,18 +12,37 @@
 <body class="container-fluid">
 	<header class="header">
         <a href="#" class="logo">Unknown</a>
-        <i class='bx bx-menu' id="menu-icon"></i>
+        <i class='bx bx-menu' id="menu-icon"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
 
         <nav class="nav">
             <a href="./index.html">Home</a>
-            <a href="#about">About</a>
+            <a href="./index.html#about">About</a>
             <a href="./vendors.php" class="active">Vendor</a>
+	    <a href="./faq.php">Faq</a>
             <a href="./register.php">Register</a>
             
 
         </nav>
-		<a href="./login.php" class="btn">Login</a>
+		<a href="./login.php" class="btn login">Login</a>
     </header>
+
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+	  <div class="offcanvas-header">
+	    <h5 id="offcanvasRightLabel"><a href="./login.php" class="btn btn-primary">Login</a></h5>
+	    <i type="button" class="fas fa-times" data-bs-dismiss="offcanvas" aria-label="Close"></i>
+	  </div>
+	  <div class="offcanvas-body">
+	    <div class="links">
+		<a href="./index.html">Home</a>
+		<a href="./index.html#about">About</a>
+		<a href="./vendors.php">Vendors</a>
+		<a href="./faq.php">Faq</a>
+		<a href="./register.php">Register</a>
+	    </div>
+	  </div>
+	</div>
+
 <br><br><br><br><br><br>
 <section class="vendors">
 	<br><br>
@@ -34,7 +53,7 @@
 		
 	</ul>
 </section>
-
+<hr>
 	<footer class="footer">
 		<div class="footer-item">
 			<div class="ft-bx">
