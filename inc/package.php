@@ -18,6 +18,8 @@ if ($user->packageExits() == true)
 		$d_E = $exp;
 
 		// REMOVE - 
+		$today = date("Ymd");
+		//echo $today;
 		$dateStarted = str_replace('-', '', $dateStarted);
 		$exp = str_replace('-', '', $exp);
 
@@ -27,6 +29,7 @@ if ($user->packageExits() == true)
 
 		// Calculate the difference between the two dates
 		$interval = $exp - $dateStarted;
+		//echo $dateStarted." | ".$today." | ".$exp;
 
 		$progress = 20;
 		switch ($interval) {
@@ -50,7 +53,7 @@ if ($user->packageExits() == true)
 
 
 
-		if ($interval == 0 && $exp >= $dateStarted)
+		if ($exp > $dateStarted && $today >= $exp)
 		{
 
 			$color = "red";

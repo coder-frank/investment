@@ -1,8 +1,14 @@
 <?php
 session_start();
+$status = include_once '../inc/getStatus.php';
+$_SESSION['status'] = $status;
 if (!isset($_SESSION['userEmail']))
 {
     header("location:../login.php");
+} else if ($_SESSION['status'] == "suspended")
+{
+    $_SESSION['message'] = "Your account has been suspended!";
+    header("location:../controllers/logout.php");
 }
 ?>
 <!DOCTYPE html>

@@ -471,9 +471,22 @@ class User
 		return false;
 	}
 
+	public function getAccountStatus($uid)
+	{
+		$query = "SELECT status FROM users WHERE id = ?";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute(array($uid));
+		if ($stmt->rowCount() > 0) {
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				return $row['status'];
+			}
+		}
+		return false;
+	}
+
 	public function getWithdrawalHistory()
 	{
-		$query = "SELECT * FROM withdrawal WHERE uid = ?";
+		$query = "SELECT * FROM withdrawal WHERE uid = ? ORDER BY id DESC";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute(array($this->id));
 		if ($stmt->rowCount() > 0) {
