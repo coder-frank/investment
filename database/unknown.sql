@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2023 at 05:57 PM
+-- Generation Time: Aug 13, 2023 at 05:17 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -54,13 +54,6 @@ CREATE TABLE `bank` (
   `accNumber` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `bank`
---
-
-INSERT INTO `bank` (`id`, `uid`, `bankName`, `accName`, `accNumber`) VALUES
-(3, 5, 'Opay', 'jeuiedjdjjd', '903983399');
-
 -- --------------------------------------------------------
 
 --
@@ -75,6 +68,7 @@ CREATE TABLE `earnings` (
   `lastClaimed` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `history`
@@ -125,7 +119,7 @@ CREATE TABLE `recharge` (
 CREATE TABLE `ref_earnings` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `balance` int(11) NOT NULL
+  `balance` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -145,6 +139,20 @@ CREATE TABLE `users` (
   `refCode` varchar(100) NOT NULL,
   `status` varchar(100) NOT NULL,
   `refBy` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors`
+--
+
+CREATE TABLE `vendors` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(100) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `image` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -227,6 +235,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `vendors`
+--
+ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `wallet`
 --
 ALTER TABLE `wallet`
@@ -246,7 +260,7 @@ ALTER TABLE `withdrawal`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bank`
@@ -288,6 +302,12 @@ ALTER TABLE `ref_earnings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vendors`
+--
+ALTER TABLE `vendors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

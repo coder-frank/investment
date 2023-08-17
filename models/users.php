@@ -327,7 +327,7 @@ class User
 
 	public function getPackages()
 	{
-		$query = "SELECT * FROM package WHERE uid = ? ORDER BY id DESC";
+		$query = "SELECT * FROM package WHERE uid = ?";
 		$stmt = $this->conn->prepare($query);
 		if ($stmt->execute(array($this->id))) {
 			return $stmt;

@@ -11,7 +11,7 @@ require_once '../inc/core.php';
 
 	// GET REFERRAL COUNT
 	$code = $user->getrefCode();
-	echo $code;
+	return $code;
 	
 }
 ?>

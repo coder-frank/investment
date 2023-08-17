@@ -84,10 +84,11 @@ require_once '../universal/includes/sidebar.php';
                         echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
                         unset($_SESSION['message']);
                         }
+                        $refCodeL = include_once '../inc/getRefCode.php';
                         ?>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" readonly value="Referral Code: <?php include_once '../inc/getRefCode.php' ?>" aria-label="Referral Code" aria-describedby="button-addon2">
-                            <button class="btn btn-primary" type="button" id="button-addon2">Copy</button>
+                            <input type="text" class="form-control" readonly value="Referral Code: <?php echo $refCodeL; ?>" aria-label="Referral Code" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="button" id="button-addon2" onclick="copyCode('<?php echo $refCodeL; ?>')">Copy</button>
                             <br>
                         </div>
                         <br><br>
@@ -100,6 +101,18 @@ require_once '../universal/includes/sidebar.php';
                     </div>
 
                 </div>
+                <script>
+                    function copyCode(code)
+                    {
+                        navigator.clipboard.writeText(code).then(() => {
+                        alert('Referral Code copied');
+                        /* Resolved - text copied to clipboard successfully */
+                        },() => {
+                        alert('Failed to copy');
+                        /* Rejected - text failed to copy to the clipboard */
+                        });
+                    }
+                </script>
                 <!-- /.container-fluid 
 
 <div class="alert alert-danger">Error</div>-->

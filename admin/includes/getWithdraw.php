@@ -5,9 +5,14 @@ if (isset($_SESSION['adminId']))
 
 	// RUN LOGIN FUNCTION
 	$withdraw = $admin->getWithdrawal();
+	if ($withdraw == false)
+	{
+		$_SESSION['message'] = "No pending withdrawal found";
+		return;
+	}
 	if ($withdraw->rowCount() == 0)
 	{
-		$_SESSION['message'] = ">No pending withdrawal found";
+		$_SESSION['message'] = "No pending withdrawal found";
 		return;
 	}
 	if ($withdraw != false)

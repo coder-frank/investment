@@ -7,49 +7,24 @@ if ($user->packageExits() == true)
 	$date = date("Y-m-d");
 	$color = "#159f6d";
 	$row = $user->getPackages();
+	$count = 1;
 	while ($package = $row->fetch(PDO::FETCH_ASSOC)) {
+		// GET AND STRIP DATE (-)
 		$exp = explode(" ", $package['date_expire']);
-		$exp = $exp[0];
-
 		$dateStarted =  explode(" ", $package['date_created']);
+
+		// ASSIGN FIRST VALUE (DATE)
+		$exp = $exp[0];
 		$dateStarted = $dateStarted[0];
+
 		$button = "";
 		$status = $package['status'];
 		$d_E = $exp;
 
-		// REMOVE - 
 		$today = date("Ymd");
-		//echo $today;
 		$dateStarted = str_replace('-', '', $dateStarted);
 		$exp = str_replace('-', '', $exp);
 
-		// CONVERT TO INTEGER
-		$dateStarted = intval($dateStarted);
-		$exp = intval($exp);
-
-		// Calculate the difference between the two dates
-		$interval = $exp - $dateStarted;
-		//echo $dateStarted." | ".$today." | ".$exp;
-
-		$progress = 20;
-		switch ($interval) {
-			case '2':
-				$progress = 80;
-				break;
-			case '3':
-				$progress = 60;
-				break;
-			case '4':
-				$progress = 40;
-				break;
-			case '5':
-				$progress = 20;
-				break;
-			
-			default:
-				$progress = 100;
-				break;
-		}
 
 
 
@@ -81,12 +56,12 @@ if ($user->packageExits() == true)
 		<div class="task">
 			<div class="head text-xs font-weight-bold text-primary text-uppercase mb-1">
 			<br>    
-			<h4><b>'.ucfirst($package['type']).'</b></h4>
+			<h4><b>'.ucfirst($package['type']).' '.$count.' </b></h4>
 				'.$button.'
 			</div>
 			<h5>Total Claimed: ₦'.number_format($user->getEarnings($package['id'])).'</h5>
 			<div class="progress">
-			<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: '.$progress.'%" aria-valuenow="'.$progress.'" aria-valuemin="0" aria-valuemax="100"></div>
+			<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
 			<br>
 			<i>Expires: '.$d_E.'</i>
@@ -95,6 +70,7 @@ if ($user->packageExits() == true)
 			<br>
 		</div>
 		';
+		$count++;
 }
 
 } else

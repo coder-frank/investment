@@ -56,14 +56,6 @@
 <hr class="sidebar-divider">
 
 <li class="nav-item active">
-    <a class="nav-link" href="faq.php">
-	<i class="fas fa-fw fa-question-circle"></i>
-	<span>Faq</span></a>
-</li>
-
-<hr class="sidebar-divider">
-
-<li class="nav-item active">
     <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
 	<i class="fas fa-fw fa-power-off"></i>
 	<span>Sign Out</span></a>
